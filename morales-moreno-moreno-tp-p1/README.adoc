@@ -1,0 +1,687 @@
+= Introducción a la Programación: Trabajo Práctico 1
+Morales Candela <cfk@gmail.com>; Moreno Lautaro <lautymoreno80@gmail.com>; Moreno Mariano <marianofmoreno@hotmail.com.ar> 
+v1, {docdate}. Docentes Eva Perón y Juan Perón (COM-08)
+:doctype: article
+:encoding: utf-8
+:lang: en
+:toc: left
+:numbered:
+
+<<< 
+== Bitácora
+=== Bitácora numero 1 del comando estelar:
+Fecha estelar del 19/10/2021, _Faltan 15 días para el día 0_ y llevamos realizando los siguientes avances:
+
+A lo largo del desarrollo del Trabajo Práctico se implementaron las siguientes clases, mecánicas e ideas para la implementacion del codigo.
+
+
+* *Búsqueda de imágenes y recursos:* Encontramos unas cuantas páginas de donde bajar los Sprites para el juego, aún no tenemos una decisión unánime sobre cual usar, empezamos utilizando los primeros que encontramos para poder comenzar a codificar los objetos del juego, acordamos entre toda la tripulación dejar estos detalles para el final del trayecto, aunque de todos modos, seguir buscando los que se adapten mejor a la estética del juego.
+
+* *Mecánicas del juego:* Respecto a las mecánicas, discutimos y vimos la posibilidad de usar vórtices de teletransportación para moverse entre los pisos. También contemplamos la posibilidad de usar escaleras, pero esto nos requería un poco mas de esfuerzo en la programación de la animación al subir de pisos. El método de teletransporte se basa en que cuando nuestra heroína se pare en las coordenadas correspondientes a la ubicación de un vórtice y se presione la tecla 'u', esta aparezca oportunamente en las coordenadas del vórtice de salida. Ademas, nos simplifica considerablemente la generación de los suelos y techos de cada uno de los pisos, ya que no era necesario dejar un hueco en los extremos para subir y bajar, dibujamos todos los pisos completos. No obstante, decidimos sacar los vórtices y hacer los huecos en los pisos. Lo cual nos genero dificultades para organizarnos con respecto a donde ubicar los pisos, ponerles un numero a cada uno, hacer una clase o un array que contenga los pisos y sus posiciones. Posteriormente llamamos a la clase *"EstructuraDePisos"*. 
+
+* *Clase EstructuraDePisos:* Esta clase se encarga de dibujar y establecer la ubicacion de los distintos pisos. Posee el constructor de "EstructuraDePisos" el cual recibe como parametro la cantidad de pisos que debe dibujar asi como tambien las variables de instancia y los distintos metodos que posee, los cuales se explicaran mas adelante.
+Además, a partir de un ciclo que distribuye la cantidad de pisos en el espacio disponible y encontramos que para la resolucion que estamos usando, el tamaño optimo es de 4 pisos, de lo contrario nuestro personaje se daria la cabeza contra el techo cada vez que esta salte. En relacion a esto la clase posee la capacidad de decirle al personaje en que piso se encuentra para luego poder guiar al mismo por la izquierda o derecha o si este se encuentra sobre un hueco
+
+* *Clase Barbarinna:* Iniciamos la clase de la heroína principal del juego y encontramos un Sprite adecuado para representar a nuestra heroína el cual incluimos en el método dibujar. Al mismo tiempo esta posee el constructor Barbarianna y sus respectivas variables de instancia como tambien los diversos metodos que esta posee los cuales tambien se explicaran mas adelante.
+La funcion de esta clase es otorgarle a la heroina el movimiento para que se desplace sobre los distintos pisos, la capacidad de poder subirlos, agacharse, saltar para lograr esquivar los rayos laser de los enemigos, pararse, girar tanto a la derecha como a la izquierda, poder disparar el rayo con el cual pueda atacar asi como tambien que esta no pueda pasarse del entorno del juego.
+
+* *Colisiones:* En la implementacion de las distintas colisiones se discutieron las responsabilidades de dichas colisiones. Una de las primeras conclusiones fue que debe existir una interacción entre los distintos personajes, heroína y enemigos con los pisos del castillo. Considerando la posibilidad de unificar todas las colisiones como responsabilidad de la EstructuraDePisos, decidir si tal o cual personaje se encuentra parado en un piso, en el aire o en un hueco. Luego se descarto esta posibilidad llegando a la conclusion de algunas condiciones se encuentran dentro del juego o dentro de la clase *"Barbarianna"*.
+
+* *Clase Commodore:* Esta clase fue creada con el fin de programar el objeto Commodore, dicha clase contiene las variables de instancia, el constructor Commodore, la imagen ubicada en el ultimo piso representando a la Commodore, incluida en el metodo dibujar. Ademas posee los getters x e y que se utilizan para una de las colisiones.  
+
+* *Clase Rayo:* La clase rayo fue creada con el fin de controlar el movimiento del rayo en relacion con el martillo "Mjollnir" como tambien poder eliminar a los enemigos. Posee el constructor Rayo con las direcciones dirigidas hacia la derecha o izquierda dependiendo del piso en donde se ejecute el rayo, sus respectivas variables de instancia como tambien los metodos que se encargan de dibujar el rayo, otorgarle movimiento, controlar que este no exceda el limite del entorno del juego y detectar el choque entre este y un velociraptors.
+
+* *Clase Velociraptor:* Esta tiene como finalidad programar los velociraptores o "los enemigos" de Barbarianna. Posee el constructor "velociraptor", las variables de instancia y los distintos metodos para que estos se ejecuten de manera correcta. Los metodos fueron implementados para que los velociraptors puedan moverse sobre los distintos pisos, dibujarlos, la capacidad de que cada uno dispare un rayo laser, detectar que no se pasen del limite del entorno del juego asi como tambien controlar que los velociraptors no se superpongan uno del otro. La idea de esta clase es implementarla en un Array de 6 velociraptors inicializado en la clase *"juego"*. El valor es una constante con la intencion de evitar hacer más complejo el código.
+
+* *Esteticas y dificultad del juego:* 
+
+Surgieron varias cuestiones relativas a la estetica y niveles de dificultad del juego, pero decidimos dejarlas para la etapa final, en caso de alcanzar el tiempo, algunos ejemplos:
+** _Pisos de hielo y fuego_ los cuales afectarian el movimiento del personaje y le restarian PV.
+** _Medidor de MP_ para evitar que se disparen rayos constantemente, el personaje deberia tener un cierta cantidad de MP disponible, que se regenere lentamente, al quedarse sin MP no puede disparar rayos.
+** _Laser de enemigos_ los enemigos al disparar, eligen aleatoreamente si disparan un rayo alto o bajo, si el rayo es alto, solo se puede esquivar agachandose, en cambio si es bajo solo se puede esquivar saltando.
+
+=== Bitácora numero 2 del comando estelar:
+Fecha estelar del 20/10/2021, _Faltan 14 días para el día 0_ y llevamos realizando los siguientes avances:
+
+* *Físicas del juego:* Se implemento el método salto de Barbarina, para este tema utilizamos un poco de física. Se implemento las variables `velocidady`, y `aceleracion`, ademas el método `boolean estaEnElPiso()`.
+
+Para determinar si Barbarinna esta sobre el piso o en el aire, en principio solo nos centramos en la coordenada "y", no tenemos en cuenta los huecos del piso (en caso de tener que implementarlos se vera) , las coordenadas y del piso la obtenemos como: $$500 - (pisoactual - 1)*125$$ esta ecuación viene de como generamos los pisos del castillo.
+
+Ahora bien, para realizar el salto: si esta en el piso se setea una velocidad inicial de -10 y una aceleración de 1, y se actualiza la velocidad `velocidady += a` y `la posiciony += velocidady`.
+
+Aun hay que ajustar algunos cambios ya que para que realice un salto completo hay que mantener presionada la tecla `w`.
+
+* Corregido el tema de actualizar la posición de Barbarinna y lo de mantener la `w` apretada. 
+
+=== Bitácora numero 3 del comando estelar:
+Fecha estelar 30/10/2021_ Faltan 4 días para entregar el Tp y llevamos realizando los siguientes avances:
+
+* *Cambios en el juego:* Se crearon metodos dentro de la clase "Rayo" con el fin de que se mueva en pantalla y se inicialice mediante una x e y de un personaje como parametros donde el rayo empiece a avanzar. Se hizo funciones dentro de la clase "EstructuraDePisos" para crear los pisos, dibujarlos, tenerlos dentro de un array, además de hacer metodos para saber en que altura está el piso y otro metodo para saber en cual piso está un personaje parado.
+Se hicieron metodos dentro de la clase "Velociraptor", para dibujar la imagen y para que el velociraptor se mueva automaticamente durante el transcurso del juego. 
+
+== Introducción
+Este trabajo práctico consiste en desarrollar un juego  llamado "Castlevania: Barbarianna Viking Edition". En el cual, un llamado Doctor Gero roba una computadora llamada "Commodore 128Kb" que hackea el tiempo, perteneciente a Hackerman. El Doctor viaja por el tiempo, especificamente a la segunda guerra mundial, y se refugió en un antiguo castillo buscando reunir un ejercito para conquistar el mundo. Hackerman construye una nueva Commodore y recluta a una vikinga llamada Barbarianna para pelear contra el Doctor dentro de su castillo lleno de Velociraptors.
+Dentro del juego, podemos manejar al personaje de Barbarianna, el cual deberá recorrer los pisos del castillo y subir cada vez más arriba del castillo por medio de los extremos de cada piso mientras se enfrenta a los multiples velociraptors que rondan por el castillo. Barbarianna cuenta con la ayuda de su martillo "Mjolnir", un regalo del dios Thor, por el cual puede lanzar rayos para acabar con los velociraptors. No obstante, los velociraptors también pueden lanzar rayos láser debido a una paradoja temporal.  
+
+El objetivo del jugador es lograr exitosamente ganar el juego logrando que Barbarianna llegue a la Commodore 128Kb sin que esta muera en el intento para esto como ya se ha mencionado debera utilizar el martillo otorgado, eliminando a sus enemigos en el camino. Además por cada velociraptors eliminado se le sumara 3 puntos a favor caso contrario si Barbarianna es impactada por un rayo láser o un velociraptors se le restara una vida de las 3 que posee hasta ser eliminada completamente y perdera el juego.  
+
+== Descripción
+Durante el transcurso del desarrollo nos encontramos con varias dificultades, para poder tener una idea de como organizarnos, tuvimos que hacer varios encuentros virtuales para poder llegar a armar las bases del codigo y algunas funciones que pensabamos implementar. Gracias a esto, pudimos empezar por hacer las clases que consideramos "principales" o "centrales" para comenzar a hacer funciones, además de eso, tuvimos que ponernos de acuerdo con respecto a las variables de instancia que cada clase deberia tener. La clase *"EstructuraDePisos"* (antes llamada como clase "Castillo") establece los pisos donde los personajes caminan, suben o bajan, y se realizan diversas funciones. En esta clase tuvimos nuestros primeros problemas ya que, al principio queriamos que los pisos se construyeran acorde a un número entero que se le pasaba como parametro al constructor, sin embargo, si teniamos más de 4 pisos en el entorno el personaje quedaba muy apretado y diminuto, además de que el código se hacia más complejo. Por esto, decidimos dejar que la cantidad de pisos sea una constante de valor 4. Posteriormente, surgieron problemas para dibujar los huecos, por lo tanto surgio la idea de implementar un tipo de vórtice o portales para justificar cuando un personaje sube o baja de un piso de un segundo a otro pero rápidamente tuvimos que descartar la idea creando los huecos que cada piso debia tener. 
+
+Con respecto a la clase *"Barbarianna"* nos encontramos con dificultades para programar una función que provoque los saltos de Barbarianna al apretar la tecla 'w', pero lo solucionamos implementando funciones que actualizaran la posición de barbarianna. No obstante, Barbarianna debía saber en que piso se encontraba, cual era su posición, y como lograr que salte de un piso a otro al oprimir la tecla 'u'. Por lo cual hicimos que en la clase "EstructuraDePisos" se encuentren las funciones referidas a la altura y numero del piso en el que un personaje se debería encontrar. Posteriormente creamos la clase *"Commodore"*, la clase mas sencilla ya que elegimos la imagen y la ubicamos en el ultimo piso. Tambien creamos las clases *"Rayo"* y *"Velociraptor"*, estas ultimas representaron dificultades a la hora de implementar sus respectivos metodos. 
+
+En la clase Rayo, el mayor inconveniente que tuvimos fue el de saber como inicializar el rayo y como hacer para que se dispare al lado de Barbarianna dentro del juego. Tiempo despues esto fue solucionado implementando condicionales dentro de la clase *"juego"* asi como tambien que Barbarianna posea el metodo *"dispararRayo"*.
+
+Por parte de la clase Velociraptor tuvimos que realizar los metodos para que se muevan constantemente y caigan de un hueco según el piso en el que se encuentren. Luego, en la clase juego, creamos un array de Velociraptors con el fin de tener un orden constante de la cantidad de enemigos que deseabamos en pantalla. 
+Por ultimo en relacion a la clase velociraptors, realizamos la clase *"rayoDeVelociraptors"* con el objetivo de que cada velociraptors dispare un rayo laser aleatoriamente.
+
+== Implementación
+
+=== Clase EstructuraDePisos
+
+Posee las variables de instancia: "cantidadDePisos", "imgPiso", "anchoDelBloque", "altoDelBloque", "bloquesDelPiso". 
+A continuación, se mostrarán los métodos que se crearon:
+
+1) El constructor de EstructuraDePisos, crea los pisos y sus respectivos huecos según si su indice (numero de piso) es par o impar. Coloca 1 en el array de pisos cuando hay bloques y 0 cuando no hay nada ( esto para posteriormente hacer los huecos)
+
+[source, java]
+----
+ public EstructuraDePisos(Entorno e, int numeroDePisos) {
+        this.cantidadDePisos = numeroDePisos;
+		this.imgPiso = Herramientas.cargarImagen("ladrillo.png");
+		this.anchoDelBloque = imgPiso.getWidth(e); 
+		this.altoDelBloque = imgPiso.getHeight(e);
+		this.bloquesDelPiso = new int[cantidadDePisos][e.ancho() / anchoDelBloque];
+
+		for (int j = 0; j < e.ancho() / anchoDelBloque; j++) {
+			bloquesDelPiso[0][j] = 1;
+		}
+		for (int i = 1; i < cantidadDePisos; i++) {
+			for (int j = 0; j < e.ancho() / anchoDelBloque; j++) {
+				bloquesDelPiso[i][j] = 1;
+				if (i % 2 == 1 && j>e.ancho()/anchoDelBloque - 3){
+					bloquesDelPiso[i][j] = 0;
+				}
+				if (i % 2 == 0 && j < 2) {
+					bloquesDelPiso[i][j] = 0;
+				}
+			}
+		}
+	}
+----
+2) El método `dibujar()` permite
+dibujar por pantalla los pisos, si dentro del array hay un 1, usa una
+imagen `png` de un bloque y la repete constantemente para hacer los
+pisos, en caso de que haya un 0, dejará de dibujar para mostrar los huecos.
+
+[source, java]
+----
+ public void dibujar(Entorno e) {
+	double x;
+	double y;
+	for (int i = 0; i < cantidadDePisos; i++) {
+		for (int j = 0; j < e.ancho() / anchoDelBloque; j++) {
+		x = j * anchoDelBloque + anchoDelBloque / 2;
+		y = alturaDelPiso(i + 1) + altoDelBloque / 2;
+		if (bloquesDelPiso[i][j] == 1) {
+			e.dibujarImagen(imgPiso, x, y, 0, 1);
+				}
+			}
+		}
+	}
+----
+
+3) Este método boolean nos recibe como parámetros a la "x" e "y" de un personaje y nos permite saber donde está situado el personaje, si hay bloques o no, es decir, si esta parado sobre algo o en un hueco. En caso de estar sobre un bloque la función devolverá un true. Caso contrario, si esta en un hueco devolverá false.
+
+[source, java]
+----
+ public boolean hayBloques(double xDeUnPersonaje, double yDeUnPersonaje) {
+		for (int i = 0; i < cantidadDePisos; i++) {
+			if (yDeUnPersonaje >= alturaDelPiso(i + 1) && yDeUnPersonaje < alturaDelPiso(i + 1) + altoDelBloque) {
+				for (int j = 0; j < bloquesDelPiso[i].length; j++) {
+					if (j * anchoDelBloque <= xDeUnPersonaje && xDeUnPersonaje < (j + 1) * anchoDelBloque) {
+						return bloquesDelPiso[i][j] == 1;
+					}
+				}
+			}
+		}
+		return false;
+	}
+----
+4) Este método nos devuelve en qué piso estamos. Recibe como parámetro la coordenada "y" de un personaje y realiza un ciclo por el cual se puede ir tomando valores del piso e ir preguntando si la "y" del personaje está contenida entre una "y" de un piso superior y una "y" de un piso menor. Se hace uso de un método llamado "alturaDelPiso".
+
+[source, java]
+----
+ public int numeroDePiso(double yDeUnPersonaje) {
+		for (int i = cantidadDePisos; i > -3; i--) {
+			if (yDeUnPersonaje <= alturaDelPiso(i + 1) && yDeUnPersonaje > alturaDelPiso(i + 2)) {
+				return (i + 1);
+			}
+		}
+		return -1;
+	}
+----
+5) Este método sirve para averiguar cuál es la altura de un piso, es decir, su coordenada "y". Devuelve un calculo que tiene en cuenta el alto del entorno - 100 (es decir 500) debido a que ese 100 se usa para hacer un apartado en pantalla dentro de la juego donde van las vidas, las muertes y el puntaje.
+[source, java]
+----
+ public double alturaDelPiso(int piso) {
+		return 500 - (500 * (piso - 1) / cantidadDePisos);
+	}
+----
+* *Clase Barbarianna*
+
+Esta clase posee las siguientes variables de instacia: x, y, factorDeDesplazamiento, velocidadHorizontal,
+velocidadVertical, gravedad, altura, ancho, estaAgachada, img.
+A continuación, se muestran los métodos que se crearon en esta clase:
+
+1) El constructor de Barbarianna inicializa su posición, tamaño,altura, imagen, etc. Junto con su factor de desplazamiento por el cual ella se va a mover.
+
+[source, java]
+----
+ public Barbarianna(Entorno e, EstructuraDePisos estructura) {
+		this.img = Herramientas.cargarImagen("barbarinna.png");
+		this.altura = img.getHeight(e);
+		this.ancho = img.getWidth(e);
+		this.x = 15;
+		this.y = estructura.alturaDelPiso(1) - altura / 2;
+		this.factorDeDesplazamiento = 5;
+		this.velocidadHorizontal = 0;
+		this.velocidadVertical = 0;
+		this.gravedad = 0;
+		this.estaAgachada =false;
+	}
+----
+2) Este método se encarga de dibujar a Barbarianna con su posición e imagen respectiva.
+
+[source, java]
+----
+ public void dibujar(Entorno e) {
+	if(estaAgachada) {
+		img = Herramientas.cargarImagen("barbariannaAgachada.png"); // estaAgachada
+		y = y + altura / 2;
+		altura = img.getHeight(e);
+		y = y - altura / 2;				
+		}else {
+			img = Herramientas.cargarImagen("barbarinna.png");
+				altura = img.getHeight(e);
+			}
+			
+			e.dibujarImagen(img, x, y, 0);
+	}
+----
+3) Este método permite que Barbarianna se mueva hacia la derecha mediante su velocidad horizontal y no deja que se salga de la pantalla (la constante 21 es el ancho de Barbarianna). Se recibe como parámetros al Entorno y la EstructuraDePisos para usar sus métodos. Si Barbarianna no está parada sobre un bloque entonces la variable "gravedad" se aumenta en 1.
+
+[source, java]
+----
+	public void girarDerecha(Entorno e, EstructuraDePisos estructura) {
+		if (x <= e.ancho() - 21) {
+			velocidadHorizontal = factorDeDesplazamiento;
+		}
+		if (!estructura.hayBloques(x, y + altura / 2)) {
+			gravedad = 1;
+		}
+	}
+----
+
+4) Este método  hace que Barbarianna se mueva a la izquierda y que no se salga de la pantalla del lado izquierdo. 
+ 
+[source, java]
+----
+ public void girarIzquierda(EstructuraDePisos c) {	
+        if (x >= 21) {
+			velocidadHorizontal = -factorDeDesplazamiento;
+		}
+		if (!c.hayBloques(x, y + altura / 2)) {
+			gravedad = 1;
+		}
+	}
+----
+5) El siguiente método permite a Barbarianna saltar en el piso solo si ella está sobre los bloques. Se le suma la altura de Barbarianna a la "y" para que sepa perfectamente en que posición de "y" está, además de restar un poco de distancia a su "x". De esta forma, la velocidad vertical pasa a ser el factor de desplazamiento multiplicado por una constante negativa 2. Y se incrementa en 1 la gravedad.
+
+[source, java]
+----
+ public void saltarEnElPiso(EstructuraDePisos estructura) {
+		if (estructura.hayBloques(x - 20, y + altura / 2)) {
+			velocidadVertical = -2 * factorDeDesplazamiento;
+			gravedad = 1;
+		}
+	}
+----
+6) Este método es el que permite a Barbarianna estar agachada si el juego lo demanda.
+
+[source, java]
+----
+ public void agacharse(Entorno e) {
+		estaAgachada = true;
+	}
+----
+7) El método "pararse" permite a Barbarianna mantener su posición. Ademas actualiza su posición en "y" en caso de estar agachada. 
+
+[source, java]
+----
+ public void pararse(Entorno e) {
+		y = y + altura / 2;
+		estaAgachada = false;
+		y = y - altura / 2;
+	}
+----
+8) El siguiente método permite a Barbarianna subir al piso siguiente solo si el piso posterior tiene un hueco y si no se encuentra en el piso 4. En caso de ser así, se actualiza la coordenada "y" de Barbarianna, se incrementa en 1 la gravedad, y si el piso en el que se encuentra es par me actualiza la coordenada "x", situando a Barbarianna en el extremo del piso y al lado del hueco (es por eso que se le resta 82, debido a que en los pisos pares el hueco está del lado derecho). En caso contrario, "x" vale 82 (en pisos impares el hueco está al comienzo del piso, por ende Barbarianna se posa al lado)
+
+[source, java]
+----
+ public void subirAlPisoSuiguiente(EstructuraDePisos estructura, Entorno e) {
+		int estePiso = estructura.numeroDePiso(y + altura / 2);
+
+		if (estructura.numeroDePiso(y)!=4 && !estructura.hayBloques(x, estructura.alturaDelPiso(estePiso + 1))) {
+			y = estructura.alturaDelPiso(estePiso + 1) - altura;
+			gravedad = 1;
+			if ((estePiso + 1) % 2 == 0) {
+				x = e.ancho() - 82;
+			} else {
+				x = 82;
+			}
+		}
+	}
+----
+9) El método mover es el más importante, debido a que se encarga de actualizar el estado de Barbarianna, su posición, si se mueve para un lado o para el otro y si esta cayendo (en este caso, suma a velocidadVertical la gravedad para posteriormente sumarle este valor a la "y" y de esta forma lograr que Barbarianna caiga). Si Barbarianna se encuentra sobre bloques entonces la gravedad y la velocidadVertical pasan a valer 0 (ya que no hace falta que Barbarianna baje). 
+Para que Barbarianna no se quede trabada en los bloques se inicializa una variable llamada "piso" que contiene le numero de piso actual. Si la altura del piso es mayor a la "y" de Barbarianna entonces esta "y" se inicializa con la altura del piso superior y se le resta la mitad de la altura de Barbarianna para que se posicione sobre los bloques de forma correcta. 
+
+[source, java]
+----
+ public void mover(Entorno e, EstructuraDePisos estructura) {
+		velocidadVertical += gravedad;
+		y += velocidadVertical;
+		x += velocidadHorizontal;
+		velocidadHorizontal = 0;
+
+		if (estructura.hayBloques(x, y + altura / 2)) {
+			gravedad = 0;
+			velocidadVertical = 0;
+
+			int piso = estructura.numeroDePiso(y + altura / 2);
+			if (estructura.alturaDelPiso(piso) > y + altura / 2) {
+				y = estructura.alturaDelPiso(piso + 1) - altura / 2;
+			}
+		}
+	}
+----
+10) Este método permite a Barbarianna crear un relampago de la clase Relampago con una dirección especifica según en qué piso está. Se pregunta por medio del método "numeroDePiso" en que piso está y si es impar o par. Si es par el rayo se crea con una "x" - la constante 80 para que se dibuje del lado izquierdo de Barbarianna.
+
+[source, java]
+----
+ public Relampago dispararRayo(Entorno e, EstructuraDePisos estructura) {
+		if (estructura.numeroDePiso(this.y) % 2 != 0) {
+			return new Relampago(this.x, this.y, true, e);
+		} else {
+			return new Relampago(this.x - 80, this.y,false, e);
+		}
+	}
+----
+11) Este método boolean sirve para saber cuando Barbarianna choca o colisiona con la Commodore. Primero pregunta si el número del piso donde esta Barbarianna y la Commodore son el mismo, en caso de ser así, pregunta si la diferencia entre la "x" de Barbarianna y de la Commodore es menor o igual a 10. En caso afirmativo, la colisión es verdadera. 
+
+[source, java]
+----
+ public boolean llegasteAlCommodore(EstructuraDePisos e, Commodore c) {
+		if (e.numeroDePiso(y) == e.numeroDePiso(c.getY())) {
+			if (x - c.getX() <= 10) {
+				return true;
+			}
+		}
+		return false;
+	}
+ ----
+12) Este método boolean permite saber si Barbarianna chocó con un Velociraptor.Devuelve el momento exacto donde ambos están en el mismo piso, además de cuando la x del Velociraptor es mayor o menor que los extremos de Barbarianna. Si esto sucede, la colisión es verdadera.
+
+
+[source, java]
+ ----
+ public boolean chocasteConUnVelociraptor(EstructuraDePisos estructura, Velociraptor v) {
+		return estructura.numeroDePiso(y) == estructura.numeroDePiso(v.getY()) && x + ancho / 2 >= v.getX()
+				&& x - ancho / 2 <= v.getX();
+	}
+----
+
+13) Este método boolean permite saber si Barbarianna chocó con un rayo laser producido por un Velociraptor. Devuelve el momento donde ambos estan en el mismo piso además de cuando la 'x' de los rayos laser se encuentran en los extremos de Barbarianna. 
+
+[source, java]
+----
+public boolean chocasteConUnRayoLaser(EstructuraDePisos estructura, RayoLaser r) {
+		return estructura.numeroDePiso(y) == estructura.numeroDePiso(r.getY()) && x + ancho / 2 >= r.getX()
+				&& x - ancho / 2 <= r.getX();
+	}
+----
+14) Este método devuelve el estado de la variable boolean "estaAgachada"
+
+[source, java]
+----
+public boolean getEstaAgachada() {
+		return estaAgachada;
+	}
+----
+
+* *Clase Relampago*
+
+Dentro de la clase Rayo se encuentran las siguientes variables de instancia:  x, y, tamanio, img, velocidad, velocidadVertical.
+A continuación, se mostrarán los métodos propios de esta clase:
+
+1) El constructor de Rayo inicializa la posición del rayo, su tamaño, su imagen, su velocidad vertical y su dirección. Esta ultima dependerá de un char pasado como parametro para saber en que dirección deberá moverse el rayo. Si el char es 'D' entonces avanzará hacia la derecha, pero si el char es 'I' entonces decrementará su posición y avanzará hacia el lado izquierdo. La coordenada "x" es la "x" de un personaje pasado como parámetro, no obstante se le suma un entero constante de valor 40 para que se dibuje el rayo al lado del personaje. En el caso de la variable "y", se le resta un valor 20 para que el rayo se dibuje un poco más alto.
+
+[source, java]
+----	
+ public Relampago(double x, double y, boolean direccion, Entorno e) {
+	    this.x = x + 40;
+		this.y = y - 10;
+		this.tamanio = 0.5;
+		this.img = Herramientas.cargarImagen("Rayo.png");
+		this.velocidad = direccion ? 10 : -10;
+		this.alto = img.getHeight(e);
+		this.ancho = img.getWidth(e);
+	}
+----
+2) Este método se encarga de dibujar el rayo, en su respectiva posición, con su tamaño e imagen.
+[source, java]
+----
+ public void dibujar(Entorno e) {
+		e.dibujarImagen(img, x, y, 0, tamanio);
+	}
+----
+3) El método "mover" hace que el rayo avance constantemente, sumandole a su coordenada "x" el valor de su velocidad almacenada en velocidadVertical.
+[source, java]
+----
+ public void mover(Entorno e, EstructuraDePisos estructura) {
+		x += velocidad;
+	}
+----
+4) Este método se encarga de verificar que la coordenada "x" del rayo haya llegado al borde derecho del entorno o que sea menor a 0 (es decir, el comienzo del entorno, del lado izquierdo).
+
+[source, java]
+----
+ public boolean llegoAlBordeDeLaPantalla(Entorno e) {
+		return x > e.ancho() || x < 0;
+	}
+----
+
+5) Este método se encarga de devolver la x del relampago.
+
+[source, java]
+----
+    public double getX() {
+		return x;
+	}
+----
+
+6) Este método se encarga de devolver la y del relampago.
+
+[source, java]
+----
+	public double getY() {
+		return y;
+
+	}
+----
+
+7) Este método se encarga de devolver el alto del relampago. 
+
+[source, java]
+----
+    public int getAlto() {
+		return this.alto;
+	}
+----
+8) Este método se encarga de devolver el ancho del relampago.
+
+[source, java]
+----
+    public int getAncho() {
+		return this.ancho;
+	}
+----
+
+
+* *Clase velociraptor*
+
+Posee las variables de instancia: "x", "y", "velocidadVertical", "img", "gravedad","factorDeDesplazamiento", "ancho" y "alto". 
+A continuación se mostraran los metodos creados en la clase:
+
+1) El constructor posee como parametros el entorno y la estructura de pisos. Se encarga de inicializar las variables de instancia con sus respectivos valores , es decir su posicion y las velocidades por las cuales se desplazaran los velociraptors. Ademas carga la imagen que representa a los velociraptors.
+
+[source, java]
+----
+ public Velociraptor(Entorno e, EstructuraDePisos c) {
+		this.img = Herramientas.cargarImagen("velociraptor.png");
+		this.x = 100;
+		this.y = estructura.alturaDelPiso(4) - 32;
+		this.factorDeDesplazamiento = 4;
+		this.velocidadVertical = 0;
+		this.gravedad = 0;
+		this.alto = img.getHeight(e);
+		this.ancho = img.getWidth(e);
+	}
+----
+2) El método dibujar se encarga de dibujar las imagenes en pantalla.
+Además, analiza cuando el velociraptor está en un piso par o no. En caso de estar en un piso par, su imagen se mantiene del lado derecho. Caso contrario, se invierte.
+
+[source, java]
+----
+ public void dibujar(Entorno e, EstructuraDePisos estructura) {
+		if (estructura.numeroDePiso(this.y) % 2 == 0 ) {
+			img = Herramientas.cargarImagen("velociraptor.png");
+		}else{
+			img = Herramientas.cargarImagen("velociraptor2.png");
+		}
+		
+		e.dibujarImagen(img, x, y, 0, 0.15);
+	}
+----
+3) El método mover recibe como parametros el entorno y la estructura de pisos. Este posee varios condicionales: 
+
+El primer if utilizando el metodo "hayBloques"se encarga de detectar si hay bloques (piso) en donde se encontraran parados los persoajes sumandole a la variable "y" el valor 32 que representa el ancho y alto total de la imagen del bloque. 
+
+El segundo if utilizando el metodo "numeroDePiso" se encarga de calcular si el piso en donde se movera el velociraptors es par y su "x" sea menor al ancho del entorno menos 50 (el largo de la imagen del velociraptors). Si esto se cumple dibuja al velociraptors en direccion a la derecha y le suma a la variable "x" el factor de desplazamiento, el cual le otorga movimiento.
+
+El tercer if utilizando el metodo "numeroDePiso" se encarga de calcular si el piso es impar y si se cumple dibuja al velocraptors en direccion izquierda y le suma a la variable "x" el factor de desplazamiento.
+
+El ultimo if utiliza los metodos "numeroDePiso" y "alturaDelPiso" e inicializa la variable de tipo entero llamada "piso" con el numero de piso y sumandole a la variable "y" el ancho y largo del bloque. Preguntando si la variable "y" es menor a al piso anterior, si esto se cumple aumenta la velocidad vertical con la gravedad inicializada en 1 y a la variable "y" la velocidad vertical.
+
+[source, java]
+----
+ public void mover(Entorno e, EstructuraDePisos estructura) {
+		if (estructura.hayBloques(x, y + 32)) {
+			gravedad = 0;
+			velocidadVertical = 0;
+			if (estructura.numeroDePiso(this.y) % 2 == 0 && x < e.ancho() - 50) {
+				x += factorDeDesplazamiento;
+			}
+			if (estructura.numeroDePiso(this.y) % 2 != 0) {
+				x += -factorDeDesplazamiento;
+			}
+		} else {
+			int piso = estructura.numeroDePiso(y + 32); 
+			if (y < estructura.alturaDelPiso(piso - 1)) {
+				gravedad = 1;
+				velocidadVertical += gravedad;
+				y += velocidadVertical;
+			}
+		}
+	}
+----
+4) El método booleano llegoAlLimite recibe como parametro el entorno y dependiendo de si se cumple o no que la variable "x" sea menor a 10, devolverá true o false. 
+
+[source, java]
+----
+	public boolean llegoAlLimiteDel(Entorno e) {
+		return x < 10;
+
+	}
+----
+5) El método booleano superasteLaDistanciaDelPuntoDeAparicion recibe como parametro el entorno y la estructura de pisos. Dependiendo de, si se cumple o no que la variable "x" sea mayor a el ancho del entorno divido 2 mas 200, devolverá true o false.
+
+[source, java]
+----
+	public boolean superasteLaDistanciaDelPuntoDeAparicion(Entorno e) {
+		return x > e.ancho()/2 + 200;
+	}
+----
+6) El método rayoLaser llamado "dispararRayo" recibe como parámetro el entorno y la estructura de pisos. El cual,dependiendo de si el piso en donde se encuentra el velociraptors es par o impar, irá en las direcciones correspondientes (derecha o izquierda) e inicializa el rayoLaser.
+
+[source, java]
+----
+	public RayoLaser dispararRayo(Entorno e, EstructuraDePisos estructura) {
+		if (estructura.numeroDePiso(this.y) % 2 == 0) {
+			return new RayoLaser(this.x, this.y, true);
+		} else {
+			return new RayoLaser(this.x - 200, this.y, false);
+		}
+	}
+----
+7) El método "chocasteConRelampago" recibe como parámetros la estructura de pisos y el relampago de Barbarianna. Detectando si hay o no una colisión entre ellos.
+
+[source, java]
+----
+	public boolean chocasteConRelampago(EstructuraDePisos estructura, Relampago r) {
+		return estructura.numeroDePiso(r.getY())==estructura.numeroDePiso(y) 
+				&& (r.getX()>=x-ancho/2 && r.getX()<=x+ancho/2);
+	}
+----
+
+8) El método getters getX devuelve la variable "x".
+[source, java]
+----
+	public double getX() {
+		return this.x;
+	}
+----
+
+9) El método getters getY devuelve la variable "y".
+[source, java]
+----
+	public double getY() {
+		return this.y;
+	}
+----
+
+10) El método getAncho devuelve el ancho del velociraptors.
+
+[source, java]
+----
+	public int getAncho() {
+		return ancho;
+	}
+----
+11) El método getAncho devuelve el alto del velociraptors.
+[source, java]
+----
+ 	public int getAlto() {
+		return alto;
+	}
+----
+
+* *Clase RayoLaser*
+
+Posee las variables de instancia: "x", "y", "velocidad", "tamanio" y "img". 
+A continuación se mostraran los metodos creados: 
+
+1) El constructor rayoLaser recibe como parametros la "x", "y" y la direccion de tipo boolean. Inicializa las variables de instancia con sus respectivos valores. 
+
+"x + 100" a la variable "x" se le suma el valor 100 para que no se superponga el velociraptors con su rayo laser, lo mismo ocurre con "y - 10". Ademas posee la variable de instancia velocidad, que dependiendo de la direccion en la que se mueva el rayo se sumen 10 a la velocidad, lo cual provoca el efecto de que el rayo se mueve hacia adelante o caso contrario se le reste 10 a la velocidad para que se mueva hacia atras.
+
+[source, java]
+----
+	public RayoLaser(double x, double y, boolean direccion) {
+	    this.x = x + 100;
+		this.y = y - 10;
+		this.tamanio = 0.6;
+		this.img = Herramientas.cargarImagen("Rayo.png");
+		this.velocidad = direccion ? 10 : -10; 
+	}
+----
+2) El método dibujar recibe como parametro el entorno y dibuja la imagen que representara al rayo. Ademas posee la variable "tamanio" para que la imagen del rayo se vea mas pequeña.
+
+[source, java]
+----
+	public void dibujar(Entorno e) {
+		e.dibujarImagen(img, x, y, 0, tamanio);
+	}
+----
+3) El método mover recibe como parametro el entorno y la estructura de pisos. Sumandole a la variable "x" la velocidad vertical provocando el movimiento del rayo.
+
+[source, java]
+----
+	public void mover(Entorno e, EstructuraDePisos estructura) {
+		x += velocidadVertical;
+	}
+----
+4) El método booleano llegoAlBordeDeLaPantalla devuelve dependiendo de, si se cumple que la variable "x" sea mayor al ancho o que sea menor a 0, sera true o false.
+
+[source, java]
+----
+	public boolean llegoAlBordeDeLaPantalla(Entorno e) {
+		return x > e.ancho() || x < 0;
+	}
+----
+5) El método getters getX devuelve la variable x.
+
+[source, java]
+----
+	public double getX() {
+		return x;
+	}
+----
+6) El método getters getY devuelve la variable y.
+
+[source, java]
+----
+	public double getY() {
+		return y;
+	}
+----
+
+* *Clase Commodore*
+Dentro de esta clase se encuentran las siguientes variables de instancia : x, y, img.
+A continuación, se mostraran los metodos creados:
+
+1) El constructor Commodore, inicializa las variables y la imagen que representara a la Commodore. Los valores "x" e "y" son constantes, ya que la Commodore se ubica en un punto especifico del juego.
+
+[source, java]
+----
+	public Commodore(Entorno e) {
+		this.x =  e.ancho() / 2;
+		this.y = 79;
+		this.img = Herramientas.cargarImagen("maquina.png");
+	}
+----
+2) El método dibujar se encarga de dibujar la imagen de la Commodore en pantalla.
+
+[source, java]
+----
+	public void dibujar(Entorno e) {
+		e.dibujarImagen(img, x, y, 0, 0.13); // con escala por el tamanio de la imagen
+	}
+----
+
+3) El método getters getX devuelve la variable "x".
+
+[source, java]
+----
+	public double getX() {
+		return this.x;
+	}
+----
+
+4) El método getters getY devuelve la variable "y".
+
+[source, java]
+----
+	public double getY() {
+		return this.y;
+	}
+----
+
+
+== Conclusiones
+
+A lo largo del desarrollo del código, para lograr su funcionamiento, nos encontramos con bastantes dificultades en el camino.
+Varias de ellas fueron sobre el manejo de los objetos, el preguntarnos "¿de quien era la responsabilidad a la hora de hacer un método?", poder saber poner nombres adecuados y no redundantes a variables y métodos. También tuvimos complicaciones con los null al momento de eliminar a los velociraptores o a Barbarianna. Obviamente tuvimos problemas con pensar la lógica de cada código, ya qué, cada uno de nosotros pensaba o tenía ideas distintas al resto. No obstante, resolviamos estas dudas sobre la marcha y elegíamos la mejor forma de pensar el código sobre la marcha o mediante meets entre los tres. 
+Sin duda esta experiencia fue enriquecedora para cada integrante del grupo debído a que, aprendimos a ver una problemática de muchas más formas de las que pensabamos. Además, aprendimos bastantes cosas fundamentales para tener un código bien nombrado y ordenado. Usamos un "for each" que antes no sabíamos usar.
+
+
